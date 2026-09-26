@@ -198,3 +198,128 @@ button {
   color: #365344;
   cursor: not-allowed;
 }
+.cart-page {
+  max-width: 1200px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 45px 6% 80px;
+}
+
+.cart-page h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  align-items: start;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.cart-product {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid #e2e9dc;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.cart-product img {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cart-product-info {
+  flex: 1;
+}
+
+.cart-product-info h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.cart-product-controls {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.quantity-controls button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #b8cbb8;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.delete-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #a33b36;
+  text-decoration: underline;
+}
+
+.cart-summary,
+.empty-cart {
+  padding: 25px;
+  border: 1px solid #e2e9dc;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 0;
+  border-top: 1px solid #dce6d8;
+}
+
+.checkout-button,
+.continue-button,
+.empty-cart button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #1d6548;
+  border-radius: 8px;
+}
+
+.checkout-button,
+.empty-cart button {
+  background: #1d6548;
+  color: #fff;
+}
+
+.continue-button {
+  background: #fff;
+  color: #1d6548;
+}
+
+@media (max-width: 800px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-product {
+    flex-wrap: wrap;
+  }
+
+  .cart-product-controls {
+    width: 100%;
+    justify-items: start;
+  }
+}

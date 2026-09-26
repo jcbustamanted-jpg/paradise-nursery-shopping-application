@@ -2,6 +2,7 @@
 import { useSelector } from 'react-redux';
 import AboutUs from './AboutUs.jsx';
 import ProductList from './ProductList.jsx';
+import CartItem from './CartItem.jsx';
 import { selectCartCount } from './CartSlice.jsx';
 import './App.css';
 
@@ -53,10 +54,7 @@ export default function App() {
               <p>Welcome to Paradise Nursery</p>
               <h1>Bring Paradise Home</h1>
               <p>Discover beautiful houseplants for every space and lifestyle.</p>
-              <button
-                className="get-started-button"
-                onClick={() => navigate('plants')}
-              >
+              <button className="get-started-button" onClick={() => navigate('plants')}>
                 Get Started
               </button>
             </div>
@@ -66,12 +64,8 @@ export default function App() {
       )}
 
       {page === 'plants' && <ProductList />}
-
       {page === 'cart' && (
-        <main className="about-us">
-          <h1>Shopping Cart</h1>
-          <p>Your selected plants will appear here in the next task.</p>
-        </main>
+        <CartItem onContinueShopping={() => navigate('plants')} />
       )}
     </>
   );
