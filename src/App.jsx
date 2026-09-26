@@ -1,122 +1,78 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+﻿import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import AboutUs from './AboutUs.jsx';
+import ProductList from './ProductList.jsx';
+import { selectCartCount } from './CartSlice.jsx';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+function getPage() {
+  const page = window.location.hash.slice(1);
+  return ['home', 'plants', 'cart'].includes(page) ? page : 'home';
+}
+
+export default function App() {
+  const [page, setPage] = useState(getPage);
+  const cartCount = useSelector(selectCartCount);
+
+  useEffect(() => {
+    const handleHashChange = () => setPage(getPage());
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  function navigate(destination) {
+    window.location.hash = destination;
+    setPage(destination);
+    window.scrollTo(0, 0);
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <header className="site-header">
+        <a className="brand" href="#home" onClick={() => navigate('home')}>
+          Paradise Nursery
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#home" onClick={() => navigate('home')}>Home</a>
+          <a href="#plants" onClick={() => navigate('plants')}>Plants</a>
+          <a
+            href="#cart"
+            onClick={() => navigate('cart')}
+            aria-label={`Cart, ${cartCount} items`}
+          >
+            <span aria-hidden="true">🛒</span> Cart
+            <span className="cart-count">{cartCount}</span>
+          </a>
+        </nav>
+      </header>
 
-      <div className="ticks"></div>
+      {page === 'home' && (
+        <main>
+          <section className="hero">
+            <div className="hero-content">
+              <p>Welcome to Paradise Nursery</p>
+              <h1>Bring Paradise Home</h1>
+              <p>Discover beautiful houseplants for every space and lifestyle.</p>
+              <button
+                className="get-started-button"
+                onClick={() => navigate('plants')}
+              >
+                Get Started
+              </button>
+            </div>
+          </section>
+          <AboutUs />
+        </main>
+      )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {page === 'plants' && <ProductList />}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {page === 'cart' && (
+        <main className="about-us">
+          <h1>Shopping Cart</h1>
+          <p>Your selected plants will appear here in the next task.</p>
+        </main>
+      )}
     </>
-  )
+  );
 }
-
-export default App
